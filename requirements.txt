@@ -1,0 +1,4 @@
+pandas
+matplotlib
+bar_chart_race
+tqdm
