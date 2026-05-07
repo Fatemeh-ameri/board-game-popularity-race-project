@@ -1,51 +1,62 @@
 # Board Game Popularity Race
 
-A data visualization project that explores how the popularity of board games changes over time using historical BoardGameGeek ranking data.
+A Python data visualization project that shows how board game popularity changes over time using historical BoardGameGeek ranking data.
 
-The main goal of this project is to build animated bar chart race visualizations that show how the most-rated board games evolve across different time periods.
+The project builds an animated bar chart race based on the number of users who rated each game on BoardGameGeek.
 
 ---
 
-## Project Preview
+## Project Overview
 
-This project generates animated visualizations similar to:
+This project processes historical BoardGameGeek ranking snapshots and turns them into a time-based animated visualization.
 
-- Top board games by number of users rated
-- Popularity changes over time
-- Historical ranking evolution on BoardGameGeek
+The current version creates a monthly bar chart race showing the most-rated board games over time.
 
-The current version is an early prototype focused on building the data pipeline and animation workflow.
+This is an educational and portfolio project focused on:
+
+- data cleaning
+- time-series preparation
+- reshaping data with pandas
+- handling missing values
+- building animated visualizations
+- writing a reusable data processing pipeline
 
 ---
 
 ## Features
 
 - Load historical BoardGameGeek CSV snapshots
-- Extract timestamps from filenames
-- Build a time-series dataset
-- Reshape data for visualization
-- Select top games dynamically
-- Handle missing values
-- Generate animated bar chart race videos
+- Select the latest available snapshot from each month
+- Extract dates from filenames
+- Combine multiple historical snapshots into one dataset
+- Use stable game IDs for tracking games over time
+- Reshape the data into a wide time-series format
+- Select games that enter the top N at any point in the timeline
+- Rename game IDs back to game names for display
+- Handle missing values for animation
+- Generate an animated bar chart race video
 
 ---
 
-## Current Progress
+## Current Status
 
-The current prototype can:
+The current version includes a working end-to-end pipeline that can:
 
-- Read multiple historical BGG CSV files
-- Combine daily snapshots into a single dataset
-- Transform the data into a wide time-series format
-- Select the top games based on user ratings
-- Generate a first working animated bar chart race video
+- read historical BGG ranking files
+- sample the data monthly
+- preprocess and combine the data
+- build a pivot table for visualization
+- dynamically select top games over time
+- export an MP4 bar chart race animation
+
+The code has been refactored into reusable functions to make the pipeline easier to read and maintain.
 
 ---
 
 ## Technologies Used
 
 - Python
-- Pandas
+- pandas
 - Matplotlib
 - bar_chart_race
 - FFmpeg
@@ -54,13 +65,24 @@ The current prototype can:
 
 ## Dataset
 
-This project uses historical BoardGameGeek ranking snapshots from the:
+This project uses historical BoardGameGeek ranking snapshots from the `bgg-ranking-historicals` dataset.
 
-`bgg-ranking-historicals`
+The raw dataset is not included in this repository because it is large. It should be downloaded separately and placed inside:
 
-dataset.
+```text
+data/raw/
+```
 
-The raw dataset is not included in this repository because of its large size.
+Expected local structure:
+
+```text
+data/
+└── raw/
+    └── bgg-ranking-historicals-master/
+        ├── 2016-10-12T00-30-40.csv
+        ├── 2016-10-14T00-31-11.csv
+        └── ...
+```
 
 ---
 
@@ -76,7 +98,7 @@ board-game-popularity-race-project/
 │   └── videos/              # Generated animations (ignored by Git)
 
 ├── src/
-│   └── explore_data.py      # Current prototype pipeline
+│   └── explore_data.py      # Current data processing and animation pipeline
 
 ├── requirements.txt
 ├── .gitignore
@@ -122,13 +144,13 @@ pip install -r requirements.txt
 
 This project uses FFmpeg to export MP4 animations.
 
-### macOS (Homebrew)
+### macOS with Homebrew
 
 ```bash
 brew install ffmpeg
 ```
 
-You can verify the installation with:
+Verify the installation:
 
 ```bash
 ffmpeg -version
@@ -138,14 +160,14 @@ ffmpeg -version
 
 ## How to Run
 
-Run the prototype script:
+From the project root, run:
 
 ```bash
 cd src
 python explore_data.py
 ```
 
-The generated animation will be saved inside:
+The generated video will be saved inside:
 
 ```text
 outputs/videos/
@@ -157,37 +179,41 @@ outputs/videos/
 
 The current pipeline performs the following steps:
 
-1. Load historical CSV snapshots
-2. Extract dates from filenames
-3. Preprocess and combine the datasets
-4. Reshape the data using pivot tables
-5. Select the top games by user ratings
-6. Handle missing values
-7. Generate an animated bar chart race
+1. Load all CSV filenames from the dataset folder
+2. Keep only CSV files and sort them chronologically
+3. Select the latest available snapshot from each month
+4. Load and preprocess selected files
+5. Keep the columns needed for visualization
+6. Use game IDs to track games consistently over time
+7. Build a pivot table with dates as rows and game IDs as columns
+8. Select games that appear in the top N during the timeline
+9. Replace missing values with 0 for animation
+10. Rename game IDs to game names for display
+11. Render the animated bar chart race video
+
+---
+
+## Notes on Interpretation
+
+The current visualization uses `Users rated` as the popularity metric.
+
+This means the animation shows how many BoardGameGeek users rated each game over time. It does not directly show the highest-rated or best-ranked games.
+
+Games with many ratings may appear more prominently than highly ranked games with fewer total ratings.
 
 ---
 
 ## Future Improvements
 
-Planned improvements include:
+Possible future improvements include:
 
-- Running the pipeline on the full historical dataset
-- Performance optimization
-- Better animation styling and themes
-- Higher resolution exports
-- Dynamic labels and transitions
-- Additional visual analytics projects
-- Ranking trend analysis
-- Fastest-rising games analysis
-- Long-term popularity tracking
-
----
-
-## Notes
-
-The current version uses a small sample of CSV files for testing and development purposes.
-
-The project is still under active development.
+- adding an intro/title card to the final video
+- improving visual styling and colors
+- adding annotations for major game releases
+- experimenting with other metrics such as rank or Bayes average
+- building a “fastest-rising board games” analysis
+- separating the current script into multiple modules
+- adding command-line options for metric, top N, and output filename
 
 ---
 
