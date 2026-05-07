@@ -75,7 +75,7 @@ Expected local structure:
     │   └── videos/              # Generated animations (ignored by Git)
 
     ├── src/
-    │   └── explore_data.py      # Data processing and animation pipeline
+    │   └── create_users_rated_race.py     # Data processing and animation pipeline
 
     ├── requirements.txt
     ├── .gitignore
@@ -127,7 +127,7 @@ Verify the installation:
 From the project root, run:
 
     cd src
-    python explore_data.py
+    python create_users_rated_race.py
 
 The generated video will be saved inside:
 
