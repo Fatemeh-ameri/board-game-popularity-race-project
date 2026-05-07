@@ -5,10 +5,10 @@ import bar_chart_race as bcr
 
 # Project configuration
 DATA_FOLDER = "../data/raw/bgg-ranking-historicals-master"
-OUTPUT_FILE = "../outputs/videos/boardgame_race_monthly_dynamic_top20_fast.mp4"
+OUTPUT_FILE = "../outputs/videos/boardgame_race_monthly_dynamic_top10_fast.mp4"
 
 
-TOP_N = 20
+TOP_N = 10
 
 
 def get_csv_files(data_folder):
