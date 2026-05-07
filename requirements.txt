@@ -1,4 +1,4 @@
-pandas
+pandas<3
 matplotlib
 bar_chart_race
 tqdm
