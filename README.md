@@ -1,25 +1,27 @@
 # Board Game Popularity Race
 
-A Python data visualization project that shows how board game popularity changes over time using historical BoardGameGeek ranking data.
+A Python data visualization project that explores how board game popularity and rankings change over time using historical BoardGameGeek ranking data.
 
-The project creates an animated bar chart race based on the number of BoardGameGeek users who rated each game.
+The project currently includes two visualizations:
+
+- an animated bar chart race based on the number of users who rated each game
+- a rank-based animation showing how top-ranked board games move over time
 
 ---
 
 ## Overview
 
-This project processes historical BoardGameGeek ranking snapshots and converts them into a monthly time-series visualization.
+This project processes historical BoardGameGeek ranking snapshots and converts them into monthly time-series visualizations.
 
-The current version includes a working end-to-end pipeline that:
+The pipeline uses stable BoardGameGeek game IDs to track games over time, then converts the data into formats suitable for animation.
 
-- reads historical BGG CSV files
-- selects the latest available snapshot from each month
-- tracks games using stable game IDs
-- reshapes the data into a time-series format
-- dynamically selects games that enter the top N over time
-- exports an MP4 bar chart race animation
+This is an educational and portfolio project focused on:
 
-This is an educational and portfolio project focused on data cleaning, time-series preparation, pandas reshaping, and animated data visualization.
+- data cleaning
+- time-series preparation
+- pandas reshaping
+- handling missing values
+- animated data visualization
 
 ---
 
@@ -28,8 +30,10 @@ This is an educational and portfolio project focused on data cleaning, time-seri
 - Monthly sampling from historical CSV snapshots
 - Stable game tracking using BoardGameGeek game IDs
 - Dynamic top-N game selection across the full timeline
-- Missing value handling for animation
-- MP4 export using `bar_chart_race` and FFmpeg
+- Animated race based on `Users rated`
+- Rank timeline JSON export
+- Rank-based animation using actual rank positions
+- MP4 export with FFmpeg
 
 ---
 
@@ -69,13 +73,16 @@ Expected local structure:
     board-game-popularity-race-project/
 
     ├── data/
-    │   └── raw/                 # Raw dataset files (ignored by Git)
+    │   └── raw/                         # Raw dataset files ignored by Git
 
     ├── outputs/
-    │   └── videos/              # Generated animations (ignored by Git)
+    │   ├── data/                        # Processed JSON files
+    │   └── videos/                      # Generated videos ignored by Git
 
     ├── src/
-    │   └── create_users_rated_race.py     # Data processing and animation pipeline
+    │   ├── create_users_rated_race.py   # Creates the users-rated bar chart race
+    │   ├── create_rank_timeline_json.py # Exports cleaned rank timeline JSON
+    │   └── create_rank_animation.py     # Creates rank-based animation from JSON
 
     ├── requirements.txt
     ├── .gitignore
@@ -124,53 +131,42 @@ Verify the installation:
 
 ## How to Run
 
-From the project root, run:
+Run scripts from the `src` directory.
+
+### 1. Create the users-rated race
 
     cd src
     python create_users_rated_race.py
 
-The generated video will be saved inside:
+This creates an MP4 animation based on the number of users who rated each game.
+
+### 2. Create the rank timeline JSON
+
+    python create_rank_timeline_json.py
+
+This creates:
+
+    outputs/data/boardgame_rank_timeline_top10.json
+
+### 3. Create the rank-based animation
+
+    python create_rank_animation.py
+
+This creates an MP4 animation based on actual BoardGameGeek rank positions.
+
+Generated videos are saved inside:
 
     outputs/videos/
 
 ---
 
-## Current Workflow
-
-The current pipeline performs the following steps:
-
-1. Load and sort historical CSV filenames
-2. Select the latest available snapshot from each month
-3. Load and preprocess selected files
-4. Use game IDs to track games consistently over time
-5. Build a pivot table with dates as rows and game IDs as columns
-6. Select games that appear in the top N during the timeline
-7. Replace missing values with 0 for animation
-8. Rename game IDs to game names for display
-9. Render the animated bar chart race video
-
----
-
 ## Notes on Interpretation
 
-The current visualization uses `Users rated` as the popularity metric.
+The users-rated animation shows how many BoardGameGeek users rated each game over time. It reflects popularity by number of ratings, not necessarily game quality or rank.
 
-This means the animation shows how many BoardGameGeek users rated each game over time. It does not directly show the highest-rated or best-ranked games.
+The rank-based animation uses BoardGameGeek ranks. Lower rank numbers are better, and Rank 1 appears at the top.
 
-Games with many ratings may appear more prominently than highly ranked games with fewer total ratings.
-
----
-
-## Future Improvements
-
-Possible future improvements include:
-
-- adding an intro/title card
-- improving visual styling and colors
-- adding annotations for major game releases
-- experimenting with other metrics such as rank or Bayes average
-- building a fastest-rising board games analysis
-- adding command-line options for metric, top N, and output filename
+A game appears in the rank animation when it enters the selected Top N timeline. Missing games are not assigned fake ranks in the exported JSON.
 
 ---
 
