@@ -5,10 +5,10 @@ import bar_chart_race as bcr
 
 # Project configuration
 DATA_FOLDER = "../data/raw/bgg-ranking-historicals-master"
-OUTPUT_FILE = "../outputs/videos/boardgame_race_monthly_dynamic_top10_fast.mp4"
+OUTPUT_FILE = "../outputs/videos/users_rated_top20.mp4"
 
 
-TOP_N = 10
+TOP_N = 20
 
 
 def get_csv_files(data_folder):
@@ -117,8 +117,8 @@ def main():
         n_bars=TOP_N,
         fixed_order=False,
         fixed_max=True,
-        steps_per_period=10,
-        period_length=400,
+        steps_per_period=12,
+        period_length=450,
         figsize=(10, 6),
         dpi=144,
         bar_label_size=7,
