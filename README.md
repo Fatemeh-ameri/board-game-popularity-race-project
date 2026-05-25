@@ -178,16 +178,6 @@ outputs/videos/
 
 ---
 
-## Technologies Used
-
-- Python
-- pandas
-- Matplotlib
-- bar_chart_race
-- FFmpeg
-
----
-
 ## Notes on Interpretation
 
 The users-rated animation shows how many BoardGameGeek users rated each game over time. It reflects popularity by number of ratings, not necessarily game quality or rank.
